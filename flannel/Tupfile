@@ -1,0 +1,4 @@
+include_rules
+: |> ./build.sh |> bin/flanneld
+: $(ROOT)/appliance/etcd/etcdctl |> !cp |> bin/etcdctl
+: bin/* |> !docker-layer0 |>
