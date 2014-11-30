@@ -605,6 +605,7 @@ func (c *libvirtContainer) watch(ready chan<- error) error {
 		if change.Error != "" {
 			err := errors.New(change.Error)
 			g.Log(grohl.Data{"at": "change", "status": "error", "err": err})
+			c.Client.Resume()
 			c.l.state.SetStatusFailed(c.job.ID, err)
 			return err
 		}
