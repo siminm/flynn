@@ -29,8 +29,15 @@ type Backend interface {
 	Attach(*AttachRequest) error
 	Cleanup() error
 	RestoreState(map[string]*host.ActiveJob, *json.Decoder) error
+	ConfigureNetworking(strategy NetworkStrategy, job string) error
 }
 
 type StateSaver interface {
 	SaveState(*json.Encoder) error
 }
+
+type NetworkStrategy int
+
+const (
+	NetworkStrategyFlannel NetworkStrategy = iota
+)
