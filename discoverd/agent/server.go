@@ -145,7 +145,7 @@ func (s *Agent) Register(args *Args, ret *string) error {
 		return err
 	}
 	*ret = addr
-	log.Println("Register:", args.Name, addr, args.Attrs)
+	log.Printf("Register: %#v", args)
 	return nil
 }
 
