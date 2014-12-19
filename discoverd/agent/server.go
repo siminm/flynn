@@ -119,6 +119,7 @@ func (s *Agent) Subscribe(args *Args, stream rpcplus.Stream) error {
 	}
 	log.Println("Subscribe:", args.Name)
 	for update := range updates.Chan() {
+		log.Printf("%s update: %#v", args.Name, update)
 		select {
 		case stream.Send <- update:
 		case <-stream.Error:
