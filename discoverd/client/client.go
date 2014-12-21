@@ -19,6 +19,10 @@ import (
 	"github.com/flynn/flynn/pkg/rpcplus"
 )
 
+func init() {
+	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
+}
+
 // This is a reasonable default value to be used for the timeout in the Services method.
 const DefaultTimeout = time.Second
 
@@ -590,11 +594,13 @@ func (c *Client) RegisterWithAttributes(name, addr string, attributes map[string
 		for {
 			select {
 			case <-ticker.C:
+				log.Println("discoverd: start heartbeat", name, args.Addr)
 				// heartbeat
 				err := c.call("Agent.Register", args, &ret, true)
 				if err != nil {
 					log.Printf("discover: heartbeat %s (%s) failed: %s", args.Name, args.Addr, err)
 				}
+				log.Println("discoverd: end heartbeat", name, args.Addr)
 			case <-done:
 				return
 			}
