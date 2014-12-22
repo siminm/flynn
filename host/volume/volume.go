@@ -26,7 +26,7 @@ type Volume interface {
 
 	// Note: NOT provided: a method that gets the host's path to a mount.  Not all backends have such a useable raw path on the host.
 
-	Mount(job host.ActiveJob, path string) (VolumeMount, error)
+	Mount(job host.Job, path string) (VolumeMount, error)
 
 	TakeSnapshot() (Volume, error)
 }

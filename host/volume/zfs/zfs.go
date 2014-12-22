@@ -57,15 +57,18 @@ func (v *zfsVolume) Mounts() map[volume.VolumeMount]struct{} {
 	return v.mounts
 }
 
-func (v *zfsVolume) Mount(job host.ActiveJob, path string) (volume.VolumeMount, error) {
+func (v *zfsVolume) Mount(job host.Job, path string) (volume.VolumeMount, error) {
 	mount := volume.VolumeMount{
-		JobID:    job.Job.ID,
+		JobID:    job.ID,
 		Location: path,
 	}
 	if _, exists := v.mounts[mount]; exists {
 		return volume.VolumeMount{}, fmt.Errorf("volume: cannot make same mount twice!")
 	}
-	// TODO: fire syscalls
+
+	// configure the job to mount this volume when it is launched
+	job.Config.Mounts = append(job.Config.Mounts, host.Mount{Location: path, Target: v.basemount, Writeable: true})
+
 	v.mounts[mount] = struct{}{}
 	return mount, nil
 }

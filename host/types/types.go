@@ -67,7 +67,7 @@ type ContainerConfig struct {
 	Entrypoint  []string
 	Cmd         []string
 	Env         map[string]string
-	Mounts      []Mount
+	Mounts      []Mount // Mounts are negotiated mainly via the volume manager, and are transient with a container (the volume manager will be responsible for restablishing them on future continers as appropriate).
 	Ports       []Port
 	WorkingDir  string
 	Uid         int
